@@ -75,7 +75,7 @@ CREATE TABLE stack_skill(
 )ENGINE=InnoDB;
 
 -- person_skills
-CREATE TABLE person_skill(
+CREATE TABLE persons_skill(
     id INT NOT NULL,
     registration_date DATE NOT NULL,
     iperson INT NOT NULL,
