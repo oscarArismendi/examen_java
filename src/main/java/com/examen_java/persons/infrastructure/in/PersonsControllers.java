@@ -11,6 +11,11 @@ import com.examen_java.persons.application.DeletePerson;
 import com.examen_java.persons.application.ListAllPersons;
 import com.examen_java.persons.application.UpdatePerson;
 import com.examen_java.persons.domain.entity.Persons;
+import com.examen_java.personsSkills.application.CreatePersonSkill;
+import com.examen_java.personsSkills.application.ListAllPersonSkills;
+import com.examen_java.personsSkills.domain.entity.PersonSkill;
+import com.examen_java.skill.application.ListAllSkills;
+import com.examen_java.skill.domain.entity.Skill;
 import com.examen_java.utils.ConsoleUtils;
 import com.examen_java.utils.Menus;
 import com.examen_java.utils.MyScanner;
@@ -22,14 +27,25 @@ public class PersonsControllers {
     private ListAllPersons listAllPersons;
     private ListAllCities listAllCities;
     private ListAllGenders listAllGenders;
+    private ListAllPersonSkills listAllPersonSkills;
+    private CreatePersonSkill createPersonSkill;
+    private ListAllSkills listAllSkills;
+
+
+
+
     public PersonsControllers(CreatePerson createPerson, UpdatePerson updatePerson, DeletePerson deletePerson,
-            ListAllPersons listAllPersons, ListAllCities listAllCities, ListAllGenders listAllGenders) {
+            ListAllPersons listAllPersons, ListAllCities listAllCities, ListAllGenders listAllGenders,
+            ListAllPersonSkills listAllPersonSkills, CreatePersonSkill createPersonSkill, ListAllSkills listAllSkills) {
         this.createPerson = createPerson;
         this.updatePerson = updatePerson;
         this.deletePerson = deletePerson;
         this.listAllPersons = listAllPersons;
         this.listAllCities = listAllCities;
         this.listAllGenders = listAllGenders;
+        this.listAllPersonSkills = listAllPersonSkills;
+        this.createPersonSkill = createPersonSkill;
+        this.listAllSkills = listAllSkills;
     }
 
     public void createPersonLogic(){
@@ -182,6 +198,39 @@ public class PersonsControllers {
             }
         } catch (Exception e) {
             System.out.println("Error at deleting a person: " + e.getMessage());
+        }
+    }
+
+    public void consultPersonForSkillLogic(){
+        try {
+            //skills              
+            List<Skill> listSkills = listAllSkills.execute();
+            if(listSkills.isEmpty()){
+                throw new Exception("There aren't skills in the database. Contact service.");
+            }
+            int skillPos = Menus.listMenu(listSkills, "Choose a skill to list");
+            Skill skill = listSkills.get(skillPos);
+            //persons              
+            List<Persons> listPersons = listAllPersons.execute();
+            if(listPersons.isEmpty()){
+                throw new Exception("There aren't persons in the database. Contact service.");
+            }
+            //personsSkils              
+            List<PersonSkill> listPersonSkills = listAllPersonSkills.execute();
+            if(listPersonSkills.isEmpty()){
+                throw new Exception("There aren't persons related to skills in the database. Contact service.");
+            }
+            for(PersonSkill pesi : listPersonSkills){
+                if(pesi.getIdskill() == skill.getId()){
+                    for(Persons pe : listPersons){
+                        if(pe.getId() == pesi.getIperson()){
+                            System.out.println(pe);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error at consulting a person for skill: " + e.getMessage());
         }
     }
 

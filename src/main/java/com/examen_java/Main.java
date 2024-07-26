@@ -16,6 +16,10 @@ import com.examen_java.persons.application.UpdatePerson;
 import com.examen_java.persons.domain.service.PersonsService;
 import com.examen_java.persons.infrastructure.in.PersonsControllers;
 import com.examen_java.persons.infrastructure.out.PersonsRepository;
+import com.examen_java.personsSkills.application.CreatePersonSkill;
+import com.examen_java.personsSkills.application.ListAllPersonSkills;
+import com.examen_java.personsSkills.domain.service.PersonSkillService;
+import com.examen_java.personsSkills.infrastructure.out.PersonSkillRepository;
 import com.examen_java.skill.application.CreateSkill;
 import com.examen_java.skill.application.ListAllSkills;
 import com.examen_java.skill.domain.service.SkillService;
@@ -31,6 +35,7 @@ public class Main {
         CityService cityService = new CityRepository();
         GenderService genderService = new GenderRepository();
         SkillService skillService = new SkillRepository();
+        PersonSkillService personSkillService = new PersonSkillRepository();
         //city use cases
         ListAllCities listAllCities = new ListAllCities(cityService);
         //gender use cases
@@ -43,8 +48,11 @@ public class Main {
         // skill use cases
         ListAllSkills listAllSkills = new ListAllSkills(skillService);
         CreateSkill createSkill = new CreateSkill(skillService);
+        // peskill use case
+        ListAllPersonSkills listAllPersonSkills = new ListAllPersonSkills(personSkillService);
+        CreatePersonSkill createPersonSkill = new CreatePersonSkill(personSkillService);
         //Controllers
-        PersonsControllers personsControllers = new PersonsControllers(createPerson, updatePerson, deletePerson, listAllPersons, listAllCities, listAllGenders);
+        PersonsControllers personsControllers = new PersonsControllers(createPerson, updatePerson, deletePerson, listAllPersons, listAllCities, listAllGenders, listAllPersonSkills, createPersonSkill, listAllSkills);
         SkillController skillController = new SkillController(listAllSkills, createSkill);
         Boolean isRunning = true;
         List<String> listMainMenu = new ArrayList<>();
@@ -85,6 +93,12 @@ public class Main {
                     ConsoleUtils.cleanScreen();
                     System.out.println("----------------------CREATE SKILL MENU----------------------------------");
                     skillController.createSkillLogic();
+                    ConsoleUtils.pause();
+                    break;
+                case "Consult person for skill":
+                    ConsoleUtils.cleanScreen();
+                    System.out.println("----------------------CONSULT PERSON FOR SKILL MENU----------------------------------");
+                    personsControllers.consultPersonForSkillLogic();
                     ConsoleUtils.pause();
                     break;
                 case "Exit":
