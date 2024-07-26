@@ -93,8 +93,23 @@ public class PersonsRepository implements PersonsService {
 
     @Override
     public Boolean delete(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        String sql = "DELETE FROM persons WHERE id = ?";
+
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+            int rowsDeleted = preparedStatement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("Person deleted successfully!");
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error at deleting the person: " + e.getMessage());
+        }
+        return false;
     }
 
 }

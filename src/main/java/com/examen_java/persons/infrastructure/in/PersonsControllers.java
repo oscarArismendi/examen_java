@@ -11,6 +11,7 @@ import com.examen_java.persons.application.DeletePerson;
 import com.examen_java.persons.application.ListAllPersons;
 import com.examen_java.persons.application.UpdatePerson;
 import com.examen_java.persons.domain.entity.Persons;
+import com.examen_java.utils.ConsoleUtils;
 import com.examen_java.utils.Menus;
 import com.examen_java.utils.MyScanner;
 
@@ -158,7 +159,29 @@ public class PersonsControllers {
             }
             
         } catch (Exception e) {
-            System.out.println("Error at creating a person: " + e.getMessage());
+            System.out.println("Error at updating a person: " + e.getMessage());
+        }
+    }
+
+    public void deletePersonLogic(){
+        try {
+            //persons              
+            List<Persons> listPersons = listAllPersons.execute();
+            if(listPersons.isEmpty()){
+                throw new Exception("There aren't persons in the database. Contact service.");
+            }
+            int personPos = Menus.listMenu(listPersons, "Choose a person: ");
+            Persons person = listPersons.get(personPos);
+            int op = ConsoleUtils.yesOrNo("Are you sure you want to delete the person : "+ person.toString() + " ?");
+            if(op == 2){
+                System.out.println("You choose against doing it.");
+            }else{
+                if(deletePerson.execute(person.getId()) == false){
+                    throw new Exception("Couldn't delete the person from the database.");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error at deleting a person: " + e.getMessage());
         }
     }
 

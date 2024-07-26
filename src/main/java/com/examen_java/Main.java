@@ -65,6 +65,12 @@ public class Main {
                     personsControllers.updatePersonLogic();
                     ConsoleUtils.pause();
                     break;
+                case "Delete person":
+                    ConsoleUtils.cleanScreen();
+                    System.out.println("---------------------DELETE PERSON MENU----------------------------------");
+                    personsControllers.deletePersonLogic();
+                    ConsoleUtils.pause();
+                    break;
                 case "Exit":
                     System.out.println("Good bye!");
                     isRunning = false;
