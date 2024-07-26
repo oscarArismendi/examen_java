@@ -16,6 +16,11 @@ import com.examen_java.persons.application.UpdatePerson;
 import com.examen_java.persons.domain.service.PersonsService;
 import com.examen_java.persons.infrastructure.in.PersonsControllers;
 import com.examen_java.persons.infrastructure.out.PersonsRepository;
+import com.examen_java.skill.application.CreateSkill;
+import com.examen_java.skill.application.ListAllSkills;
+import com.examen_java.skill.domain.service.SkillService;
+import com.examen_java.skill.infrastructure.in.SkillController;
+import com.examen_java.skill.infrastructure.out.SkillRepository;
 import com.examen_java.utils.ConsoleUtils;
 import com.examen_java.utils.Menus;
 
@@ -25,6 +30,7 @@ public class Main {
         PersonsService personsService = new PersonsRepository();
         CityService cityService = new CityRepository();
         GenderService genderService = new GenderRepository();
+        SkillService skillService = new SkillRepository();
         //city use cases
         ListAllCities listAllCities = new ListAllCities(cityService);
         //gender use cases
@@ -34,8 +40,12 @@ public class Main {
         CreatePerson createPerson = new CreatePerson(personsService);
         DeletePerson deletePerson = new DeletePerson(personsService);
         UpdatePerson updatePerson = new UpdatePerson(personsService);
+        // skill use cases
+        ListAllSkills listAllSkills = new ListAllSkills(skillService);
+        CreateSkill createSkill = new CreateSkill(skillService);
         //Controllers
         PersonsControllers personsControllers = new PersonsControllers(createPerson, updatePerson, deletePerson, listAllPersons, listAllCities, listAllGenders);
+        SkillController skillController = new SkillController(listAllSkills, createSkill);
         Boolean isRunning = true;
         List<String> listMainMenu = new ArrayList<>();
         listMainMenu.add("Register person");
@@ -69,6 +79,12 @@ public class Main {
                     ConsoleUtils.cleanScreen();
                     System.out.println("---------------------DELETE PERSON MENU----------------------------------");
                     personsControllers.deletePersonLogic();
+                    ConsoleUtils.pause();
+                    break;
+                case "Create skill":
+                    ConsoleUtils.cleanScreen();
+                    System.out.println("----------------------CREATE SKILL MENU----------------------------------");
+                    skillController.createSkillLogic();
                     ConsoleUtils.pause();
                     break;
                 case "Exit":
