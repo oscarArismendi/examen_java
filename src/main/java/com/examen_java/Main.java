@@ -59,6 +59,12 @@ public class Main {
                     personsControllers.createPersonLogic();
                     ConsoleUtils.pause();
                     break;
+                case "Update person":
+                    ConsoleUtils.cleanScreen();
+                    System.out.println("--------------------UPDATE PERSON MENU----------------------------------");
+                    personsControllers.updatePersonLogic();
+                    ConsoleUtils.pause();
+                    break;
                 case "Exit":
                     System.out.println("Good bye!");
                     isRunning = false;

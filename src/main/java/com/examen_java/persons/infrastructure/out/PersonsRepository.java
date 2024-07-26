@@ -72,9 +72,23 @@ public class PersonsRepository implements PersonsService {
     }
 
     @Override
-    public Persons update(Persons person) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public Boolean update(String updateColumns, Persons person) {
+        String query = "UPDATE persons SET " + updateColumns + " WHERE id = ?";
+
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, person.getId());
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Person updated successfully!");
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error at updating the person: " + e.getMessage());
+        }
+        return false;
     }
 
     @Override

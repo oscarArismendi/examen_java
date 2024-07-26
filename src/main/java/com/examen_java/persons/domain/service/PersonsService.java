@@ -7,6 +7,6 @@ import com.examen_java.persons.domain.entity.Persons;
 public interface PersonsService {
     List<Persons> listAll();
     Persons create(Persons person);
-    Persons update(Persons person);
+    Boolean update(String updateColumns, Persons person);
     Boolean delete(Integer id);
 }

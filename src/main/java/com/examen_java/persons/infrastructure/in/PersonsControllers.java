@@ -90,4 +90,76 @@ public class PersonsControllers {
         }
     }
 
+    public void updatePersonLogic(){
+        try {
+            //persons              
+            List<Persons> listPersons = listAllPersons.execute();
+            if(listPersons.isEmpty()){
+                throw new Exception("There aren't persons in the database. Contact service.");
+            }
+            int personPos = Menus.listMenu(listPersons, "Choose a person: ");
+            Persons person = listPersons.get(personPos);
+            System.out.print("Type the new name(actual: " + person.getName() + "): ");
+            String name = MyScanner.scanLine();
+            if(name.isEmpty()){
+                throw new Exception("You didn't put a name");
+            }
+            //lastname
+            System.out.print("Type the new lastname(actual: " + person.getLastName() + "): ");
+            String lastname = MyScanner.scanLine();
+            if(lastname.isEmpty()){
+                throw new Exception("You didn't put the lastname");
+            }
+            // city
+            List<City> listCities = listAllCities.execute();
+            if(listCities.isEmpty()){
+                throw new Exception("There aren't cities in the database. Contact service.");
+            }
+            int cityPos = Menus.listMenu(listCities, "Choose a city(actual: " + person.getIdcity() + "): ");
+            City city = listCities.get(cityPos);
+            //address
+            System.out.print("Type the new address(actual: " + person.getAddress() + "): ");
+            String address = MyScanner.scanLine();
+            if(address.isEmpty()){
+                throw new Exception("You didn't put the address");
+            }
+            //age
+            System.out.print("Type the new age(actual: " + person.getAge() + "): ");
+            Integer age = MyScanner.scanInt();
+            if(age < 0){
+                throw new Exception("There can't be person with less than 0 years");
+            }
+            if(age > 110){
+                throw new Exception("We doubt that there is a person with "+ age + " years");
+            }
+            //email
+            System.out.print("Type the new email(actual: " + person.getEmail() + "): ");
+            String email = MyScanner.scanLine();
+            if(email.isEmpty()){
+                throw new Exception("You didn't put the email");
+            }
+            //gender              
+            List<Gender> listGenders = listAllGenders.execute();
+            if(listGenders.isEmpty()){
+                throw new Exception("There aren't genders in the database. Contact service.");
+            }
+            int genderPos = Menus.listMenu(listGenders, "Choose a gender(actual: " + person.getIdgender() + "): ");
+            Gender gender = listGenders.get(genderPos);
+            String updatedColumns = "name = '" + name +"' , ";
+            updatedColumns += "lastname = '" + lastname +"' , ";
+            updatedColumns += "idcity = '" + city.getId() +"' , ";
+            updatedColumns += "address = '" + address +"' , ";
+            updatedColumns += "age = '" + age +"' , ";
+            updatedColumns += "email = '" + email +"' , ";
+            updatedColumns += "idgender = '" + gender.getId() +"' ";
+
+            if(updatePerson.execute(updatedColumns,person) == false){
+                throw new Exception("The person couldn't be update in the database.");
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error at creating a person: " + e.getMessage());
+        }
+    }
+
 }
