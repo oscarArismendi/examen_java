@@ -76,7 +76,7 @@ CREATE TABLE stack_skill(
 
 -- person_skills
 CREATE TABLE persons_skill(
-    id INT NOT NULL,
+    id INT AUTO_INCREMENT NOT NULL,
     registration_date DATE NOT NULL,
     iperson INT NOT NULL,
     idskill INT NOT NULL,

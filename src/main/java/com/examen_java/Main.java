@@ -101,6 +101,12 @@ public class Main {
                     personsControllers.consultPersonForSkillLogic();
                     ConsoleUtils.pause();
                     break;
+                case "Asign person skill":
+                    ConsoleUtils.cleanScreen();
+                    System.out.println("----------------------ASSIGN PERSON SKILL MENU----------------------------------");
+                    personsControllers.assignPerson();
+                    ConsoleUtils.pause();
+                    break;
                 case "Exit":
                     System.out.println("Good bye!");
                     isRunning = false;

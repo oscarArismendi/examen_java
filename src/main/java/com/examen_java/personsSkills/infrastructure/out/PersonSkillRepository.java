@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.examen_java.persons.domain.entity.Persons;
 import com.examen_java.personsSkills.domain.entity.PersonSkill;
 import com.examen_java.personsSkills.domain.service.PersonSkillService;
 import com.examen_java.resorces.DatabaseConfig;
@@ -40,7 +39,7 @@ public class PersonSkillRepository implements PersonSkillService {
 
     @Override
     public PersonSkill create(PersonSkill personSkill) {
-        String sql = "INSERT INTO persons_skill (registration_date,iperson,idskill) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO persons_skill (registration_date,iperson,idskill) VALUES (?, ?, ?)";
 
         try (Connection connection = DatabaseConfig.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql,
@@ -52,9 +51,9 @@ public class PersonSkillRepository implements PersonSkillService {
 
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    personSkill.setId(generatedKeys.getInt(1));
-                }
+                // if (generatedKeys.next()) {
+                //     personSkill.setId(generatedKeys.getInt(1));
+                // }
                 System.out.println("Person Skill successfully created!");
                 return personSkill;
             }
